@@ -1,4 +1,6 @@
-package com.jzli.netty.demo.chapter2_1;
+package com.jzli.netty.demo.chapter2_2;
+
+import com.jzli.netty.demo.chapter2_1.BIOTimeServerHandler;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -11,20 +13,21 @@ import java.net.Socket;
  * @Date ：2017/9/7
  * @Author ：李金钊
  * @Version ：0.0.1
- * @Description ：使用线程实现时间服务器
+ * @Description ：使用线程池实现时间服务器
  * ========================================================
  */
-public class BIOTimeServer {
-
+public class TimeServer {
     public static void main(String[] args) throws IOException {
         int port = 6666;
         ServerSocket server = null;
         try {
             server = new ServerSocket(port);
-            System.out.println("Time server is start in port " + port);
+            System.out.println("BIO time server is start in port " + port);
+
+            TimeServerHandlerExecutePool pool = new TimeServerHandlerExecutePool(10, 100);
             while (true) {
                 Socket accept = server.accept();
-                new Thread(new BIOTimeServerHandler(accept)).start();
+                pool.execute(new BIOTimeServerHandler(accept));
             }
         } finally {
             if (null != server) {
