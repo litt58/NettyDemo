@@ -22,7 +22,7 @@ public class TimeServer {
         ServerSocket server = null;
         try {
             server = new ServerSocket(port);
-            System.out.println("BIO time server is start in port " + port);
+            System.out.println("Time server is start in port " + port);
 
             TimeServerHandlerExecutePool pool = new TimeServerHandlerExecutePool(10, 100);
             while (true) {
