@@ -32,12 +32,9 @@ public class BIOTimeServer {
                 server = null;
             }
 
-            Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    System.out.println("最后运行的钩子程序");
-                    System.exit(0);
-                }
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+                System.out.println("最后运行的钩子程序");
+                System.exit(0);
             }));
         }
     }
