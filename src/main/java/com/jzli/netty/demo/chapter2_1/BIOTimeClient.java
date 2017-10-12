@@ -16,7 +16,7 @@ import static com.jzli.netty.demo.chapter2_1.BIOTimeServerHandler.QUERYORDER;
  * @Date ：2017/9/7
  * @Author ：李金钊
  * @Version ：0.0.1
- * @Description ：
+ * @Description ：BIO 客户端
  * ========================================================
  */
 public class BIOTimeClient {
