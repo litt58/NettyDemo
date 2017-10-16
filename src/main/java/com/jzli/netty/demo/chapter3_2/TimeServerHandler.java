@@ -4,6 +4,8 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -23,6 +25,8 @@ import static com.jzli.netty.demo.chapter2_3.MultiplexerTimeServer.WRONGORDER;
  * ========================================================
  */
 public class TimeServerHandler extends ChannelHandlerAdapter {
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+
     private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Override
@@ -31,7 +35,7 @@ public class TimeServerHandler extends ChannelHandlerAdapter {
         byte[] bytes = new byte[buf.readableBytes()];
         buf.readBytes(bytes);
         String line = new String(bytes, "UTF-8");
-        System.out.println("Netty time server receive order:" + line);
+        logger.info("Netty time server receive order:" + line);
         String currentTime;
         if (QUERYORDER.equalsIgnoreCase(line)) {
             currentTime = dateFormat.format(new Date());
