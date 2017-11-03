@@ -1,6 +1,5 @@
 package com.jzli.netty.demo.chapter7_1;
 
-import com.jzli.netty.demo.chapter5_2.EchoServer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
