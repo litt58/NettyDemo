@@ -140,8 +140,11 @@ public class HttpFileServerHandler extends SimpleChannelInboundHandler<FullHttpR
         sb.append("<h3>");
         sb.append(filePath).append(" 目录: ");
         sb.append("</h3>\r\n");
-        sb.append("ul");
-        sb.append("<li>链接：<a href=\" ../\")..</a></li>\r\n");
+        sb.append("<li>返回上级目录：<a href=\"");
+        sb.append("../");
+        sb.append("\">");
+        sb.append("...");
+        sb.append("</a></li>\r\n");
         for (File f : file.listFiles()) {
             if (f.isHidden() || !f.canRead()) {
                 continue;
