@@ -121,9 +121,9 @@ public class HttpFileServerHandler extends SimpleChannelInboundHandler<FullHttpR
         ctx.writeAndFlush(response).addListener(ChannelFutureListener.CLOSE);
     }
 
-    private void sendDirect(ChannelHandlerContext ctx, String newUri) {
+    private void sendDirect(ChannelHandlerContext ctx, String uri) {
         FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.FOUND);
-        response.headers().set(HttpHeaderNames.LOCATION, newUri);
+        response.headers().set(HttpHeaderNames.LOCATION, uri);
         ctx.writeAndFlush(response).addListener(ChannelFutureListener.CLOSE);
     }
 
