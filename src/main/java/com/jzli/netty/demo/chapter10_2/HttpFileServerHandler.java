@@ -27,11 +27,17 @@ import java.util.regex.Pattern;
  */
 public class HttpFileServerHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
     private final String url;
+    private final String replaceUrl;
     private static final Pattern INSECURE_URL = Pattern.compile(".*[<>&\"].*");
     private static final Pattern ALLOWED_FILE_NAME = Pattern.compile("[A-Za-z0-9][-_A-Za-z0-9\\.]*");
 
     public HttpFileServerHandler(String url) {
         this.url = url;
+        if (this.url != null) {
+            this.replaceUrl = url.replace("/", "\\");
+        } else {
+            this.replaceUrl = this.url;
+        }
     }
 
     @Override
@@ -131,7 +137,7 @@ public class HttpFileServerHandler extends SimpleChannelInboundHandler<FullHttpR
         FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK);
         response.headers().set(HttpHeaderNames.CONTENT_TYPE, "text/html;charset=UTF-8");
         StringBuilder sb = new StringBuilder();
-        String filePath = file.getPath();
+        String filePath = file.getPath() + File.separator;
         sb.append("<!DOCTYPE html>\r\n");
         sb.append("<html><head><title>");
         sb.append(filePath);
@@ -140,11 +146,13 @@ public class HttpFileServerHandler extends SimpleChannelInboundHandler<FullHttpR
         sb.append("<h3>");
         sb.append(filePath).append(" 目录: ");
         sb.append("</h3>\r\n");
-        sb.append("<li>返回上级目录：<a href=\"");
-        sb.append("../");
-        sb.append("\">");
-        sb.append("...");
-        sb.append("</a></li>\r\n");
+        if (!isRoot(filePath)) {
+            sb.append("<li>返回上级目录：<a href=\"");
+            sb.append("../");
+            sb.append("\">");
+            sb.append("...");
+            sb.append("</a></li>\r\n");
+        }
         for (File f : file.listFiles()) {
             if (f.isHidden() || !f.canRead()) {
                 continue;
@@ -191,5 +199,15 @@ public class HttpFileServerHandler extends SimpleChannelInboundHandler<FullHttpR
         return System.getProperty("user.dir") + File.separator + uri;
     }
 
+    public boolean isRoot(String filePath) {
+        boolean isRoot = false;
+        if (filePath.endsWith(url)) {
+            isRoot = true;
+        }
+        if (filePath.endsWith(replaceUrl)) {
+            isRoot = true;
+        }
+        return isRoot;
+    }
 
 }
