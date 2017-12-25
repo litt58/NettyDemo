@@ -53,14 +53,12 @@ public class NettyClient {
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
-            executorService.execute(new Runnable() {
-                public void run() {
-                    try {
-                        TimeUnit.SECONDS.sleep(5);
-                        connect(NettyConstant.PORT, NettyConstant.REMOTEIP);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+            executorService.execute(() -> {
+                try {
+                    TimeUnit.SECONDS.sleep(5);
+                    connect(NettyConstant.PORT, NettyConstant.REMOTEIP);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             });
         }

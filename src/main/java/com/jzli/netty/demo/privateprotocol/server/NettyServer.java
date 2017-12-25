@@ -4,10 +4,7 @@ import com.jzli.netty.demo.privateprotocol.codec.NettyMessageDecoder;
 import com.jzli.netty.demo.privateprotocol.codec.NettyMessageEncoder;
 import com.jzli.netty.demo.privateprotocol.common.NettyConstant;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.logging.LogLevel;
@@ -46,7 +43,8 @@ public class NettyServer {
                 });
 
         //绑定端口，同步等待成功
-        b.bind(NettyConstant.REMOTEIP, NettyConstant.PORT).sync();
+        ChannelFuture f = b.bind(NettyConstant.REMOTEIP, NettyConstant.PORT).sync();
+        f.channel().closeFuture().sync();
         System.out.println("netty server start ok:" + (NettyConstant.REMOTEIP + ":" + NettyConstant.PORT));
     }
 }
