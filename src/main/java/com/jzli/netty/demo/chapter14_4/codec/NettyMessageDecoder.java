@@ -1,7 +1,7 @@
-package com.jzli.netty.demo.privateprotocol.codec;
+package com.jzli.netty.demo.chapter14_4.codec;
 
-import com.jzli.netty.demo.privateprotocol.model.Header;
-import com.jzli.netty.demo.privateprotocol.model.NettyMessage;
+import com.jzli.netty.demo.chapter14_4.bean.Header;
+import com.jzli.netty.demo.chapter14_4.bean.NettyMessage;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
@@ -11,9 +11,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author wangzhen
- * @version 1.0
- * @createDate：2015年12月16日 下午2:24:33
+ * =======================================================
+ *
+ * @Company 产品技术部
+ * @Date ：2017/12/11
+ * @Author ：李金钊
+ * @Version ：0.0.1
+ * @Description ：
+ * ========================================================
  */
 public class NettyMessageDecoder extends LengthFieldBasedFrameDecoder {
 

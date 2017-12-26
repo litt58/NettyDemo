@@ -13,16 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jzli.netty.demo.privateprotocol.common;
+package com.jzli.netty.demo.chapter14_4.common;
 
 /**
- * @author Lilinfeng
- * @date 2014年3月15日
- * @version 1.0
+ * =======================================================
+ *
+ * @Company 产品技术部
+ * @Date ：2017/12/11
+ * @Author ：李金钊
+ * @Version ：0.0.1
+ * @Description ：
+ * ========================================================
  */
 public final class NettyConstant {
     public static final String REMOTEIP = "127.0.0.1";
-    public static final int PORT = 8080;
-    public static final int LOCAL_PORT = 12088;
+    public static final int PORT = 8848;
+    public static final int LOCAL_PORT = 12081;
     public static final String LOCALIP = "127.0.0.1";
 }

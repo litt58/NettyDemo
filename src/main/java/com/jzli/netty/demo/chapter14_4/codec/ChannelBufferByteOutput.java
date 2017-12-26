@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-package com.jzli.netty.demo.privateprotocol.codec;
+package com.jzli.netty.demo.chapter14_4.codec;
 
 import io.netty.buffer.ByteBuf;
 import org.jboss.marshalling.ByteOutput;
@@ -21,9 +21,14 @@ import org.jboss.marshalling.ByteOutput;
 import java.io.IOException;
 
 /**
- * {@link ByteOutput} implementation which writes the data to a {@link ByteBuf}
+ * =======================================================
  *
- *
+ * @Company 产品技术部
+ * @Date ：2017/12/11
+ * @Author ：李金钊
+ * @Version ：0.0.1
+ * @Description ：
+ * ========================================================
  */
 class ChannelBufferByteOutput implements ByteOutput {
 
@@ -38,12 +43,10 @@ class ChannelBufferByteOutput implements ByteOutput {
 
     @Override
     public void close() throws IOException {
-        // Nothing to do
     }
 
     @Override
     public void flush() throws IOException {
-        // nothing to do
     }
 
     @Override
@@ -63,7 +66,6 @@ class ChannelBufferByteOutput implements ByteOutput {
 
     /**
      * Return the {@link ByteBuf} which contains the written content
-     *
      */
     ByteBuf getBuffer() {
         return buffer;

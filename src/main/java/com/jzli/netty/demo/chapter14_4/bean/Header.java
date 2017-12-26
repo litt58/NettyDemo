@@ -1,13 +1,17 @@
-package com.jzli.netty.demo.privateprotocol.model;
+package com.jzli.netty.demo.chapter14_4.bean;
 
 import java.util.HashMap;
 import java.util.Map;
 
-/** 
- * @author wangzhen 
- * @version 1.0  
- * @createDate：2015年12月16日 上午11:24:40 
- * 
+/**
+ * =======================================================
+ *
+ * @Company 产品技术部
+ * @Date ：2017/12/11
+ * @Author ：李金钊
+ * @Version ：0.0.1
+ * @Description ：
+ * ========================================================
  */
 public class Header {
 	private int crcCode=0xabef0101;

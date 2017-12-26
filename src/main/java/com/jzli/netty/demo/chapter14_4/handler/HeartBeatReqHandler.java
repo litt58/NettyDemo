@@ -1,8 +1,8 @@
-package com.jzli.netty.demo.privateprotocol.client;
+package com.jzli.netty.demo.chapter14_4.handler;
 
-import com.jzli.netty.demo.privateprotocol.common.MessageType;
-import com.jzli.netty.demo.privateprotocol.model.Header;
-import com.jzli.netty.demo.privateprotocol.model.NettyMessage;
+import com.jzli.netty.demo.chapter14_4.common.MessageType;
+import com.jzli.netty.demo.chapter14_4.bean.Header;
+import com.jzli.netty.demo.chapter14_4.bean.NettyMessage;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.concurrent.ScheduledFuture;
@@ -10,9 +10,14 @@ import io.netty.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author wangzhen
- * @version 1.0
- * @createDate：2015年12月16日 下午3:47:12
+ * =======================================================
+ *
+ * @Company 产品技术部
+ * @Date ：2017/12/11
+ * @Author ：李金钊
+ * @Version ：0.0.1
+ * @Description ：客户端心跳处理器
+ * ========================================================
  */
 public class HeartBeatReqHandler extends ChannelHandlerAdapter {
     private volatile ScheduledFuture<?> heartBeat;

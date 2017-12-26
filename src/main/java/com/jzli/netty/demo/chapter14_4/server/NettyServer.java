@@ -1,8 +1,10 @@
-package com.jzli.netty.demo.privateprotocol.server;
+package com.jzli.netty.demo.chapter14_4.server;
 
-import com.jzli.netty.demo.privateprotocol.codec.NettyMessageDecoder;
-import com.jzli.netty.demo.privateprotocol.codec.NettyMessageEncoder;
-import com.jzli.netty.demo.privateprotocol.common.NettyConstant;
+import com.jzli.netty.demo.chapter14_4.codec.NettyMessageDecoder;
+import com.jzli.netty.demo.chapter14_4.codec.NettyMessageEncoder;
+import com.jzli.netty.demo.chapter14_4.common.NettyConstant;
+import com.jzli.netty.demo.chapter14_4.handler.HeartBeatRespHandler;
+import com.jzli.netty.demo.chapter14_4.handler.LoginAuthRespHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -12,15 +14,16 @@ import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 
 /**
- * @author wangzhen
- * @version 1.0
- * @createDate：2015年12月16日 下午4:37:42
+ * =======================================================
+ *
+ * @Company 产品技术部
+ * @Date ：2017/12/11
+ * @Author ：李金钊
+ * @Version ：0.0.1
+ * @Description ：
+ * ========================================================
  */
 public class NettyServer {
-
-    public static void main(String[] args) throws Exception {
-        new NettyServer().bind();
-    }
 
     private void bind() throws Exception {
         EventLoopGroup bossGroup = new NioEventLoopGroup();
@@ -44,7 +47,11 @@ public class NettyServer {
 
         //绑定端口，同步等待成功
         ChannelFuture f = b.bind(NettyConstant.REMOTEIP, NettyConstant.PORT).sync();
-        f.channel().closeFuture().sync();
         System.out.println("netty server start ok:" + (NettyConstant.REMOTEIP + ":" + NettyConstant.PORT));
+        f.channel().closeFuture().sync();
+    }
+
+    public static void main(String[] args) throws Exception {
+        new NettyServer().bind();
     }
 }

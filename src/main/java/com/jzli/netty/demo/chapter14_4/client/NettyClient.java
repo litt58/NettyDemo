@@ -1,8 +1,10 @@
-package com.jzli.netty.demo.privateprotocol.client;
+package com.jzli.netty.demo.chapter14_4.client;
 
-import com.jzli.netty.demo.privateprotocol.codec.NettyMessageDecoder;
-import com.jzli.netty.demo.privateprotocol.codec.NettyMessageEncoder;
-import com.jzli.netty.demo.privateprotocol.common.NettyConstant;
+import com.jzli.netty.demo.chapter14_4.codec.NettyMessageDecoder;
+import com.jzli.netty.demo.chapter14_4.codec.NettyMessageEncoder;
+import com.jzli.netty.demo.chapter14_4.common.NettyConstant;
+import com.jzli.netty.demo.chapter14_4.handler.HeartBeatReqHandler;
+import com.jzli.netty.demo.chapter14_4.handler.LoginAuthReqHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -15,17 +17,18 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author wangzhen
- * @version 1.0
- * @createDate：2015年12月16日 下午4:14:47
+ * =======================================================
+ *
+ * @Company 产品技术部
+ * @Date ：2017/12/11
+ * @Author ：李金钊
+ * @Version ：0.0.1
+ * @Description ：
+ * ========================================================
  */
 public class NettyClient {
     private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
     EventLoopGroup group = new NioEventLoopGroup();
-
-    public static void main(String[] args) {
-        new NettyClient().connect(NettyConstant.PORT, NettyConstant.REMOTEIP);
-    }
 
     private void connect(int port, String host) {
 
@@ -34,7 +37,6 @@ public class NettyClient {
             b.group(group).channel(NioSocketChannel.class)
                     .option(ChannelOption.TCP_NODELAY, true)
                     .handler(new ChannelInitializer<Channel>() {
-
                         @Override
                         protected void initChannel(Channel ch) throws Exception {
                             ch.pipeline().addLast(new NettyMessageDecoder(1024 * 1024, 4, 4));
@@ -42,7 +44,6 @@ public class NettyClient {
                             ch.pipeline().addLast("readTimeoutHandler", new ReadTimeoutHandler(50));
                             ch.pipeline().addLast("LoginAuthHandler", new LoginAuthReqHandler());
                             ch.pipeline().addLast("HeartBeatHandler", new HeartBeatReqHandler());
-
                         }
                     });
 
@@ -62,6 +63,9 @@ public class NettyClient {
                 }
             });
         }
+    }
 
+    public static void main(String[] args) {
+        new NettyClient().connect(NettyConstant.PORT, NettyConstant.REMOTEIP);
     }
 }

@@ -1,9 +1,14 @@
-package com.jzli.netty.demo.privateprotocol.model;
-/** 
- * @author wangzhen 
- * @version 1.0  
- * @createDate：2015年12月16日 上午11:24:40 
- * 
+package com.jzli.netty.demo.chapter14_4.bean;
+
+/**
+ * =======================================================
+ *
+ * @Company 产品技术部
+ * @Date ：2017/12/11
+ * @Author ：李金钊
+ * @Version ：0.0.1
+ * @Description ：
+ * ========================================================
  */
 public class NettyMessage {
 	private Header header;//消息头
