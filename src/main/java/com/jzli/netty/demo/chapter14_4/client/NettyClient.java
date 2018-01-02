@@ -15,6 +15,7 @@ import java.net.InetSocketAddress;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * =======================================================
@@ -27,6 +28,7 @@ import java.util.concurrent.TimeUnit;
  * ========================================================
  */
 public class NettyClient {
+    public static AtomicBoolean isRun = new AtomicBoolean(true);
     private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
     EventLoopGroup group = new NioEventLoopGroup();
 
@@ -39,6 +41,8 @@ public class NettyClient {
                     .handler(new ChannelInitializer<Channel>() {
                         @Override
                         protected void initChannel(Channel ch) throws Exception {
+                            NettyClient.isRun.set(false);
+
                             ch.pipeline().addLast(new NettyMessageDecoder(1024 * 1024, 4, 4));
                             ch.pipeline().addLast("MessageEncoder", new NettyMessageEncoder());
                             ch.pipeline().addLast("readTimeoutHandler", new ReadTimeoutHandler(50));
@@ -48,20 +52,23 @@ public class NettyClient {
                     });
 
             //发起异步连接操作
-            ChannelFuture future = b.connect(new InetSocketAddress(host, port),
-                    new InetSocketAddress(NettyConstant.LOCALIP, NettyConstant.LOCAL_PORT)).sync();
+//            ChannelFuture future = b.connect(new InetSocketAddress(host, port),
+//                    new InetSocketAddress(NettyConstant.LOCALIP, NettyConstant.LOCAL_PORT)).sync();
+            ChannelFuture future = b.connect(new InetSocketAddress(host, port)).sync();
             future.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
-            executorService.execute(() -> {
-                try {
-                    TimeUnit.SECONDS.sleep(5);
-                    connect(NettyConstant.PORT, NettyConstant.REMOTEIP);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
+            if (isRun.get()) {
+                executorService.execute(() -> {
+                    try {
+                        TimeUnit.SECONDS.sleep(5);
+                        connect(NettyConstant.PORT, NettyConstant.REMOTEIP);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+            }
         }
     }
 

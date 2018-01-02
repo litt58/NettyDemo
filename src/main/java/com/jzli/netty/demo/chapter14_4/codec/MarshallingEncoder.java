@@ -1,7 +1,6 @@
 package com.jzli.netty.demo.chapter14_4.codec;
 
 import io.netty.buffer.ByteBuf;
-import io.netty.channel.ChannelHandler.Sharable;
 import org.jboss.marshalling.Marshaller;
 
 import java.io.IOException;
@@ -16,7 +15,6 @@ import java.io.IOException;
  * @Description ：
  * ========================================================
  */
-@Sharable
 public class MarshallingEncoder {
 
     private static final byte[] LENGTH_PLACEHOLDER = new byte[4];

@@ -1,8 +1,9 @@
 package com.jzli.netty.demo.chapter14_4.handler;
 
-import com.jzli.netty.demo.chapter14_4.common.MessageType;
 import com.jzli.netty.demo.chapter14_4.bean.Header;
 import com.jzli.netty.demo.chapter14_4.bean.NettyMessage;
+import com.jzli.netty.demo.chapter14_4.client.NettyClient;
+import com.jzli.netty.demo.chapter14_4.common.MessageType;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 
@@ -34,6 +35,7 @@ public class LoginAuthReqHandler extends ChannelHandlerAdapter {
             byte loginResult = (Byte) message.getBody();
             if (loginResult != (byte) 0) {
                 ctx.close();
+                NettyClient.isRun.set(false);
             } else {
                 System.out.println("Login is OK:" + message);
                 ctx.fireChannelRead(message);

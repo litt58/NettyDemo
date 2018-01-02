@@ -3,6 +3,7 @@ package com.jzli.netty.demo.chapter14_4.handler;
 import com.jzli.netty.demo.chapter14_4.common.MessageType;
 import com.jzli.netty.demo.chapter14_4.bean.Header;
 import com.jzli.netty.demo.chapter14_4.bean.NettyMessage;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 
@@ -20,6 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @Description ：服务器端登录处理器
  * ========================================================
  */
+@ChannelHandler.Sharable
 public class LoginAuthRespHandler extends ChannelHandlerAdapter {
 
     private Map<String, Boolean> nodeCheck = new ConcurrentHashMap<String, Boolean>();
@@ -31,15 +33,13 @@ public class LoginAuthRespHandler extends ChannelHandlerAdapter {
             throws Exception {
         NettyMessage message = (NettyMessage) msg;
         if (message.getHeader() != null && message.getHeader().getType() == MessageType.LOGIN_REQ.value()) {
-            String nodeIndex = ctx.channel().remoteAddress().toString();
-            NettyMessage loginResp = null;
-            //重复登录，拒绝
-            // TODO 用IP去判断
-            if (nodeCheck.containsKey(nodeIndex)) {
+            InetSocketAddress address = (InetSocketAddress) ctx.channel().remoteAddress();
+            String ip = address.getAddress().getHostAddress();
+            NettyMessage loginResp;
+            //用IP去判断重复登录，拒绝
+            if (nodeCheck.containsKey(ip)) {
                 loginResp = buildResponse((byte) -1);
             } else {
-                InetSocketAddress address = (InetSocketAddress) ctx.channel().remoteAddress();
-                String ip = address.getAddress().getHostAddress();
                 boolean isOK = false;
                 for (String WIP : whiteList) {
                     if (WIP.equals(ip)) {
@@ -51,10 +51,9 @@ public class LoginAuthRespHandler extends ChannelHandlerAdapter {
                 if (isOK) {
                     nodeCheck.put(ip, true);
                 }
-
-                System.out.println("The login response is :" + loginResp + " body[" + loginResp.getBody() + "]");
-                ctx.writeAndFlush(loginResp);
             }
+            System.out.println("The login response is :" + loginResp + " body[" + loginResp.getBody() + "]");
+            ctx.writeAndFlush(loginResp);
         } else {
             ctx.fireChannelRead(msg);
         }
